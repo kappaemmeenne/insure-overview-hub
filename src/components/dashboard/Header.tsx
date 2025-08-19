@@ -23,11 +23,16 @@ export const Header = () => {
         </Sheet>
 
         <div className="flex items-center space-x-2">
-          <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">GIC</span>
-          </div>
-          <span className="font-semibold text-lg hidden sm:block">G Insurance Consulting</span>
-          <span className="font-semibold text-lg sm:hidden">GIC</span>
+          <img 
+            src="/lovable-uploads/21710150-7949-41db-81cc-4c6da0c5fc19.png" 
+            alt="G Insurance Consulting" 
+            className="h-8 hidden sm:block"
+          />
+          <img 
+            src="/lovable-uploads/b193620b-9683-42db-9e81-9175a21c0fbe.png" 
+            alt="GIC" 
+            className="h-8 w-8 sm:hidden"
+          />
         </div>
       </div>
 

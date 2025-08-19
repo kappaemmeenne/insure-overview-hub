@@ -89,8 +89,12 @@ export const CompanySection = () => {
           <div className="space-y-3">
             <Label>Logo Studio</Label>
             <div className="flex items-center space-x-4">
-              <div className="w-20 h-20 bg-secondary rounded-lg flex items-center justify-center">
-                <Building2 className="h-8 w-8 text-muted-foreground" />
+              <div className="w-20 h-20 bg-secondary rounded-lg flex items-center justify-center p-2">
+                <img 
+                  src="/lovable-uploads/486b88d7-3832-49ac-b0b2-eac0c8878210.png" 
+                  alt="G Insurance Consulting Logo" 
+                  className="w-full h-full object-contain"
+                />
               </div>
               <div className="space-y-2">
                 <Button variant="outline" size="sm" onClick={handleLogoUpload}>
