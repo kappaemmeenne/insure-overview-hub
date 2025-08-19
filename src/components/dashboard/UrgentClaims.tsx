@@ -90,7 +90,12 @@ export const UrgentClaims = () => {
                   <Button size="sm" className="flex-1 lg:w-full lg:min-w-[120px]">
                     Gestisci
                   </Button>
-                  <Button size="sm" variant="outline" className="flex-1 lg:w-full lg:min-w-[120px]">
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className="flex-1 lg:w-full lg:min-w-[120px]"
+                    onClick={() => window.location.href = `/claim/${claim.id}`}
+                  >
                     Dettagli
                   </Button>
                 </div>
