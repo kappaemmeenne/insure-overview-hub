@@ -83,27 +83,41 @@ export const CalendarView = ({ viewType, selectedDate, appointments, filters }: 
     return (
       <TooltipProvider>
         <Card 
-          className={`${config.bg} border cursor-pointer hover:shadow-md transition-all duration-200 ${
-            isExpanded ? 'p-3' : 'p-2'
+          className={`border cursor-pointer hover:shadow-md transition-all duration-200 ${
+            isExpanded 
+              ? 'bg-card shadow-lg border-primary/20 p-3' 
+              : `${config.bg} p-2`
           }`}
           onClick={() => setIsExpanded(!isExpanded)}
         >
           <CardContent className="p-0">
             <div className="space-y-2">
               {/* Header sempre visibile */}
-              <div className="flex items-center justify-between">
+              <div className={`flex items-center justify-between ${
+                isExpanded ? 'bg-muted/50 -mx-1 px-2 py-1 rounded' : ''
+              }`}>
                 <div className="flex items-center gap-2">
                   <span className="text-lg">{config.emoji}</span>
                   <div className="flex flex-col">
-                    <span className="font-medium text-xs">{appointment.startTime} - {appointment.endTime}</span>
-                    <span className="text-xs text-muted-foreground truncate">{appointment.clientName}</span>
+                    <span className={`font-medium text-xs ${
+                      isExpanded ? 'text-foreground' : 'text-foreground/80'
+                    }`}>
+                      {appointment.startTime} - {appointment.endTime}
+                    </span>
+                    <span className={`text-xs truncate ${
+                      isExpanded ? 'text-foreground/70' : 'text-muted-foreground'
+                    }`}>
+                      {appointment.clientName}
+                    </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-1">
                   {appointment.priority === "urgent" && (
                     <Badge variant="destructive" className="text-xs px-1">!</Badge>
                   )}
-                  <div className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>
+                  <div className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''} ${
+                    isExpanded ? 'text-foreground' : 'text-muted-foreground'
+                  }`}>
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                     </svg>
@@ -113,22 +127,22 @@ export const CalendarView = ({ viewType, selectedDate, appointments, filters }: 
               
               {/* Dettagli espandibili */}
               {isExpanded && (
-                <div className="space-y-2 animate-fade-in">
-                  <div className="text-xs font-medium">
+                <div className="space-y-2 animate-fade-in bg-background/95 backdrop-blur-sm -mx-1 px-2 py-2 rounded border border-border/50">
+                  <div className="text-xs font-medium text-foreground">
                     {appointment.title}
                   </div>
-                  <div className="text-xs text-muted-foreground">
+                  <div className="text-xs text-foreground/70">
                     Pratica: {appointment.claimNumber}
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1 text-xs text-foreground/70">
                     <MapPin className="h-3 w-3" />
                     <span className="truncate">{appointment.address}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1 text-xs text-foreground/70">
                     <Phone className="h-3 w-3" />
                     <span>{appointment.phone}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-1 text-xs text-foreground/70">
                     <FileText className="h-3 w-3" />
                     <span>{appointment.description}</span>
                   </div>
