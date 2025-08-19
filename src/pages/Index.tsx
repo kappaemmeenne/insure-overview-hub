@@ -10,6 +10,7 @@ import type { AdvancedFilters } from "@/components/dashboard/AdvancedFiltersModa
 export type TimeFilter = "today" | "week" | "month" | "quarter" | "year";
 export type StatusFilter = "pending" | "in_progress" | "completed" | "cancelled" | null;
 
+// Dashboard principale di G Insurance Consulting
 const Index = () => {
   const [activeTimeFilter, setActiveTimeFilter] = useState<TimeFilter>("week");
   const [activeStatusFilter, setActiveStatusFilter] = useState<StatusFilter>(null);
