@@ -24,15 +24,11 @@ const Index = () => {
             {/* Cards Statistiche */}
             <StatCards />
             
-            {/* Grafici e Sinistri Urgenti */}
-            <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 lg:gap-6">
-              <div className="xl:col-span-2">
-                <Charts />
-              </div>
-              <div className="xl:col-span-1">
-                <UrgentClaims />
-              </div>
-            </div>
+            {/* Grafici */}
+            <Charts />
+            
+            {/* Sinistri Urgenti */}
+            <UrgentClaims />
           </div>
         </main>
       </div>
