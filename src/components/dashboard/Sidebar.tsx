@@ -21,13 +21,18 @@ const navigationItems = [
 ];
 
 const quickFilters = [
-  { name: "In Attesa", icon: Clock, count: 12, color: "warning" },
-  { name: "In Lavorazione", icon: AlertTriangle, count: 8, color: "primary" },
-  { name: "Completati", icon: CheckCircle, count: 45, color: "success" },
-  { name: "Annullati", icon: XCircle, count: 3, color: "destructive" },
+  { name: "In Attesa", icon: Clock, count: 12, color: "warning", status: "pending" },
+  { name: "In Lavorazione", icon: AlertTriangle, count: 8, color: "primary", status: "in_progress" },
+  { name: "Completati", icon: CheckCircle, count: 45, color: "success", status: "completed" },
+  { name: "Annullati", icon: XCircle, count: 3, color: "destructive", status: "cancelled" },
 ];
 
-export const Sidebar = () => {
+interface SidebarProps {
+  activeStatusFilter?: string | null;
+  onStatusFilterChange?: (status: string | null) => void;
+}
+
+export const Sidebar = ({ activeStatusFilter, onStatusFilterChange }: SidebarProps = {}) => {
   const currentPath = window.location.pathname;
   
   return (
@@ -59,34 +64,47 @@ export const Sidebar = () => {
             Filtri Rapidi
           </h3>
           <div className="space-y-1">
-            {quickFilters.map((filter) => (
-              <button
-                key={filter.name}
-                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm hover:bg-secondary transition-colors"
-              >
-                <div className="flex items-center space-x-3">
-                  <filter.icon 
-                    className={cn(
-                      "h-4 w-4",
-                      filter.color === "warning" && "text-warning",
-                      filter.color === "primary" && "text-primary",
-                      filter.color === "success" && "text-success",
-                      filter.color === "destructive" && "text-destructive"
-                    )} 
-                  />
-                  <span className="text-foreground">{filter.name}</span>
-                </div>
-                <span className={cn(
-                  "text-xs px-2 py-1 rounded-full",
-                  filter.color === "warning" && "bg-warning/10 text-warning",
-                  filter.color === "primary" && "bg-primary/10 text-primary",
-                  filter.color === "success" && "bg-success/10 text-success",
-                  filter.color === "destructive" && "bg-destructive/10 text-destructive"
-                )}>
-                  {filter.count}
-                </span>
-              </button>
-            ))}
+            {quickFilters.map((filter) => {
+              const isActive = activeStatusFilter === filter.status;
+              return (
+                <button
+                  key={filter.name}
+                  className={cn(
+                    "w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors",
+                    isActive 
+                      ? "bg-primary text-primary-foreground" 
+                      : "hover:bg-secondary"
+                  )}
+                  onClick={() => onStatusFilterChange?.(isActive ? null : filter.status)}
+                >
+                  <div className="flex items-center space-x-3">
+                    <filter.icon 
+                      className={cn(
+                        "h-4 w-4",
+                        isActive && "text-primary-foreground",
+                        !isActive && filter.color === "warning" && "text-warning",
+                        !isActive && filter.color === "primary" && "text-primary",
+                        !isActive && filter.color === "success" && "text-success",
+                        !isActive && filter.color === "destructive" && "text-destructive"
+                      )} 
+                    />
+                    <span className={isActive ? "text-primary-foreground" : "text-foreground"}>
+                      {filter.name}
+                    </span>
+                  </div>
+                  <span className={cn(
+                    "text-xs px-2 py-1 rounded-full",
+                    isActive && "bg-primary-foreground/20 text-primary-foreground",
+                    !isActive && filter.color === "warning" && "bg-warning/10 text-warning",
+                    !isActive && filter.color === "primary" && "bg-primary/10 text-primary",
+                    !isActive && filter.color === "success" && "bg-success/10 text-success",
+                    !isActive && filter.color === "destructive" && "bg-destructive/10 text-destructive"
+                  )}>
+                    {filter.count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
         </div>
       </nav>

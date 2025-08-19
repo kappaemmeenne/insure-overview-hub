@@ -1,7 +1,15 @@
-import { Clock, MapPin, User, AlertTriangle } from "lucide-react";
+import { Clock, AlertTriangle, User, MapPin } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import type { TimeFilter, StatusFilter } from "@/pages/Index";
+import type { AdvancedFilters } from "./AdvancedFiltersModal";
+
+interface UrgentClaimsProps {
+  timeFilter: TimeFilter;
+  statusFilter: StatusFilter;
+  advancedFilters: AdvancedFilters;
+}
 
 const urgentClaims = [
   {
@@ -33,7 +41,7 @@ const urgentClaims = [
   }
 ];
 
-export const UrgentClaims = () => {
+export const UrgentClaims = ({ timeFilter, statusFilter, advancedFilters }: UrgentClaimsProps) => {
   return (
     <Card className="stat-card">
       <CardHeader className="flex flex-row items-center justify-between">

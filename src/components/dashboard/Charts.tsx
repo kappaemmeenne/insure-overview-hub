@@ -1,5 +1,13 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from "recharts";
+import type { TimeFilter, StatusFilter } from "@/pages/Index";
+import type { AdvancedFilters } from "./AdvancedFiltersModal";
+
+interface ChartsProps {
+  timeFilter: TimeFilter;
+  statusFilter: StatusFilter;
+  advancedFilters: AdvancedFilters;
+}
 
 const monthlyData = [
   { month: "Gen", sinistri: 45 },
@@ -17,7 +25,7 @@ const statusData = [
   { name: "Annullati", value: 3, color: "hsl(var(--destructive))" },
 ];
 
-export const Charts = () => {
+export const Charts = ({ timeFilter, statusFilter, advancedFilters }: ChartsProps) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
       <Card className="stat-card">
