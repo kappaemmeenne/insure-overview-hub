@@ -10,6 +10,7 @@ import {
   AlertTriangle,
   XCircle
 } from "lucide-react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 const navigationItems = [
@@ -42,9 +43,9 @@ export const Sidebar = ({ activeStatusFilter, onStatusFilterChange }: SidebarPro
           {navigationItems.map((item) => {
             const isActive = currentPath === item.href;
             return (
-              <a
+              <Link
                 key={item.name}
-                href={item.href}
+                to={item.href}
                 className={cn(
                   "flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
                   isActive
@@ -54,7 +55,7 @@ export const Sidebar = ({ activeStatusFilter, onStatusFilterChange }: SidebarPro
               >
                 <item.icon className="h-5 w-5" />
                 <span>{item.name}</span>
-              </a>
+              </Link>
             );
           })}
         </div>
@@ -110,8 +111,8 @@ export const Sidebar = ({ activeStatusFilter, onStatusFilterChange }: SidebarPro
       </nav>
 
       <div className="p-4 border-t border-border">
-        <a
-          href="/impostazioni"
+        <Link
+          to="/impostazioni"
           className={cn(
             "flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors w-full mb-3",
             currentPath === "/impostazioni"
@@ -121,7 +122,7 @@ export const Sidebar = ({ activeStatusFilter, onStatusFilterChange }: SidebarPro
         >
           <Settings className="h-5 w-5" />
           <span>Impostazioni</span>
-        </a>
+        </Link>
         <div className="text-center text-xs text-muted-foreground">
           <p>© 2025 G Insurance Consulting</p>
           <p>Versione 1.0.0</p>
