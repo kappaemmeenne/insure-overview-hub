@@ -74,9 +74,9 @@ const Report = () => {
   const [filters, setFilters] = useState<ReportFilters>({
     dateFrom: undefined,
     dateTo: undefined,
-    provincia: "",
+    provincia: "ALL_PROVINCES",
     tipologie: [],
-    compagnia: ""
+    compagnia: "ALL_COMPANIES"
   });
 
   const province = ["Napoli", "Salerno", "Caserta", "Avellino", "Benevento"];

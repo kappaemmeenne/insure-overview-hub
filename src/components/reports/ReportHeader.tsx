@@ -39,9 +39,9 @@ export const ReportHeader = ({
     setFilters({
       dateFrom: undefined,
       dateTo: undefined,
-      provincia: "",
+      provincia: "ALL_PROVINCES",
       tipologie: [],
-      compagnia: ""
+      compagnia: "ALL_COMPANIES"
     });
   };
 
@@ -161,7 +161,7 @@ export const ReportHeader = ({
                 <SelectValue placeholder="Provincia" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tutte le province</SelectItem>
+                <SelectItem value="ALL_PROVINCES">Tutte le province</SelectItem>
                 {province.map(prov => (
                   <SelectItem key={prov} value={prov}>{prov}</SelectItem>
                 ))}
@@ -177,7 +177,7 @@ export const ReportHeader = ({
                 <SelectValue placeholder="Compagnia" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tutte le compagnie</SelectItem>
+                <SelectItem value="ALL_COMPANIES">Tutte le compagnie</SelectItem>
                 {compagnies.map(comp => (
                   <SelectItem key={comp} value={comp}>{comp}</SelectItem>
                 ))}

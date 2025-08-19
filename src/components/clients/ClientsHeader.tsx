@@ -28,15 +28,19 @@ export const ClientsHeader = ({
   statuses,
   provinces
 }: ClientsHeaderProps) => {
-  const activeFiltersCount = Object.values(filters).filter(value => value !== "").length - (filters.search ? 1 : 0);
+  const activeFiltersCount = Object.entries(filters).filter(([key, value]) => {
+    if (key === "search") return false; // Non contare la ricerca
+    const allValues = ["ALL_COMPANIES", "ALL_STATUSES", "ALL_PROVINCES", "ALL_RATINGS"];
+    return value !== "" && !allValues.includes(value);
+  }).length;
 
   const clearFilters = () => {
     setFilters({
       search: filters.search, // Mantieni la ricerca
-      compagnia: "",
-      status: "",
-      provincia: "",
-      rating: ""
+      compagnia: "ALL_COMPANIES",
+      status: "ALL_STATUSES",
+      provincia: "ALL_PROVINCES",
+      rating: "ALL_RATINGS"
     });
   };
 
@@ -133,7 +137,7 @@ export const ClientsHeader = ({
                           <SelectValue placeholder="Tutte le compagnie" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">Tutte le compagnie</SelectItem>
+                          <SelectItem value="ALL_COMPANIES">Tutte le compagnie</SelectItem>
                           {compagnies.map(compagnia => (
                             <SelectItem key={compagnia} value={compagnia}>
                               {compagnia}
@@ -153,7 +157,7 @@ export const ClientsHeader = ({
                           <SelectValue placeholder="Tutti gli status" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">Tutti gli status</SelectItem>
+                          <SelectItem value="ALL_STATUSES">Tutti gli status</SelectItem>
                           {statuses.map(status => (
                             <SelectItem key={status} value={status}>
                               {status}
@@ -173,7 +177,7 @@ export const ClientsHeader = ({
                           <SelectValue placeholder="Tutte le province" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">Tutte le province</SelectItem>
+                          <SelectItem value="ALL_PROVINCES">Tutte le province</SelectItem>
                           {provinces.map(provincia => (
                             <SelectItem key={provincia} value={provincia}>
                               {provincia}
@@ -193,7 +197,7 @@ export const ClientsHeader = ({
                           <SelectValue placeholder="Tutti i rating" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="">Tutti i rating</SelectItem>
+                          <SelectItem value="ALL_RATINGS">Tutti i rating</SelectItem>
                           <SelectItem value="4.5">4.5+ stelle</SelectItem>
                           <SelectItem value="4.0">4.0+ stelle</SelectItem>
                           <SelectItem value="3.5">3.5+ stelle</SelectItem>

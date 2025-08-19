@@ -177,10 +177,10 @@ const Clients = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState<ClientsFilters>({
     search: "",
-    compagnia: "",
-    status: "",
-    provincia: "",
-    rating: ""
+    compagnia: "ALL_COMPANIES",
+    status: "ALL_STATUSES",
+    provincia: "ALL_PROVINCES",
+    rating: "ALL_RATINGS"
   });
 
   const itemsPerPage = 6;
@@ -192,10 +192,10 @@ const Clients = () => {
         client.email.toLowerCase().includes(filters.search.toLowerCase()) ||
         client.telefono.includes(filters.search);
 
-      const matchesCompagnia = !filters.compagnia || client.compagnia === filters.compagnia;
-      const matchesStatus = !filters.status || client.status === filters.status;
-      const matchesProvincia = !filters.provincia || client.provincia === filters.provincia;
-      const matchesRating = !filters.rating || (() => {
+      const matchesCompagnia = filters.compagnia === "ALL_COMPANIES" || client.compagnia === filters.compagnia;
+      const matchesStatus = filters.status === "ALL_STATUSES" || client.status === filters.status;
+      const matchesProvincia = filters.provincia === "ALL_PROVINCES" || client.provincia === filters.provincia;
+      const matchesRating = filters.rating === "ALL_RATINGS" || (() => {
         const ratingFilter = parseFloat(filters.rating);
         return client.rating >= ratingFilter;
       })();
