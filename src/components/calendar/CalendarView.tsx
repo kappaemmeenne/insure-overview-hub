@@ -40,70 +40,103 @@ export const CalendarView = ({ viewType, selectedDate, appointments, filters }: 
 
   const AppointmentCard = ({ appointment, compact = false }: { appointment: Appointment; compact?: boolean }) => {
     const config = appointmentTypeConfig[appointment.type];
+    const [isExpanded, setIsExpanded] = useState(false);
     
-    return (
-      <TooltipProvider>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <Card 
-              className={`${config.bg} border cursor-pointer hover:shadow-md transition-all duration-200 ${
-                compact ? 'p-2' : 'p-3'
-              }`}
-              onClick={() => setSelectedAppointment(appointment)}
-            >
-              <CardContent className="p-0">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <span className="text-lg">{config.emoji}</span>
-                    <span className={`font-medium text-xs ${compact ? 'truncate' : ''}`}>
-                      {appointment.title}
+    if (compact) {
+      return (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Card 
+                className={`${config.bg} border cursor-pointer hover:shadow-md transition-all duration-200 p-1`}
+                onClick={() => setSelectedAppointment(appointment)}
+              >
+                <CardContent className="p-0">
+                  <div className="flex items-center gap-1">
+                    <span className="text-sm">{config.emoji}</span>
+                    <span className="text-xs font-medium truncate flex-1">
+                      {appointment.startTime}
                     </span>
                     {appointment.priority === "urgent" && (
-                      <Badge variant="destructive" className="text-xs">
-                        Urgente
-                      </Badge>
+                      <div className="w-2 h-2 rounded-full bg-destructive" />
                     )}
                   </div>
-                  
-                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                    <Clock className="h-3 w-3" />
-                    <span>{appointment.startTime} - {appointment.endTime}</span>
-                  </div>
-                  
-                  {!compact && (
-                    <>
-                      <div className="text-xs font-medium">
-                        {appointment.clientName} - {appointment.clientCode.slice(0, 6)}...
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        Pratica: {appointment.claimNumber}
-                      </div>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <MapPin className="h-3 w-3" />
-                        <span className="truncate">{appointment.address}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <Phone className="h-3 w-3" />
-                        <span>{appointment.phone}</span>
-                      </div>
-                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                        <FileText className="h-3 w-3" />
-                        <span>{appointment.description}</span>
-                      </div>
-                    </>
-                  )}
+                </CardContent>
+              </Card>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="max-w-xs">
+              <div className="p-2 space-y-2">
+                <div className="flex items-center gap-2">
+                  <span>{config.emoji}</span>
+                  <span className="font-medium">{appointment.title}</span>
                 </div>
-              </CardContent>
-            </Card>
-          </TooltipTrigger>
-          <TooltipContent>
-            <div className="p-2 space-y-1">
-              <p className="font-medium">{appointment.title}</p>
-              <p className="text-xs">{appointment.clientName}</p>
-              <p className="text-xs">{appointment.startTime} - {appointment.endTime}</p>
+                <div className="text-sm">{appointment.clientName}</div>
+                <div className="text-xs text-muted-foreground">{appointment.startTime} - {appointment.endTime}</div>
+                <div className="text-xs text-muted-foreground">{appointment.description}</div>
+              </div>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
+      );
+    }
+
+    return (
+      <TooltipProvider>
+        <Card 
+          className={`${config.bg} border cursor-pointer hover:shadow-md transition-all duration-200 ${
+            isExpanded ? 'p-3' : 'p-2'
+          }`}
+          onClick={() => setIsExpanded(!isExpanded)}
+        >
+          <CardContent className="p-0">
+            <div className="space-y-2">
+              {/* Header sempre visibile */}
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-lg">{config.emoji}</span>
+                  <div className="flex flex-col">
+                    <span className="font-medium text-xs">{appointment.startTime} - {appointment.endTime}</span>
+                    <span className="text-xs text-muted-foreground truncate">{appointment.clientName}</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-1">
+                  {appointment.priority === "urgent" && (
+                    <Badge variant="destructive" className="text-xs px-1">!</Badge>
+                  )}
+                  <div className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}>
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Dettagli espandibili */}
+              {isExpanded && (
+                <div className="space-y-2 animate-fade-in">
+                  <div className="text-xs font-medium">
+                    {appointment.title}
+                  </div>
+                  <div className="text-xs text-muted-foreground">
+                    Pratica: {appointment.claimNumber}
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <MapPin className="h-3 w-3" />
+                    <span className="truncate">{appointment.address}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <Phone className="h-3 w-3" />
+                    <span>{appointment.phone}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <FileText className="h-3 w-3" />
+                    <span>{appointment.description}</span>
+                  </div>
+                </div>
+              )}
             </div>
-          </TooltipContent>
-        </Tooltip>
+          </CardContent>
+        </Card>
       </TooltipProvider>
     );
   };
@@ -130,9 +163,9 @@ export const CalendarView = ({ viewType, selectedDate, appointments, filters }: 
             <div key={time} className="h-16 border-b border-border" />
           ))}
           
-          {/* Appuntamenti sovrapposti */}
+          {/* Appuntamenti compatti */}
           <div className="absolute inset-0">
-            {dayAppointments.map(appointment => {
+            {dayAppointments.map((appointment, index) => {
               const startHour = parseInt(appointment.startTime.split(':')[0]);
               const startMinutes = parseInt(appointment.startTime.split(':')[1]);
               const endHour = parseInt(appointment.endTime.split(':')[0]);
@@ -142,13 +175,22 @@ export const CalendarView = ({ viewType, selectedDate, appointments, filters }: 
               const duration = ((endHour * 60 + endMinutes) - (startHour * 60 + startMinutes)) / 30;
               
               const top = startSlot * 32; // 32px per slot (h-16 / 2)
-              const height = duration * 32;
+              const minHeight = 48; // Altezza minima per evitare sovrapposizioni
+              const height = Math.max(duration * 32, minHeight);
+              
+              // Offset per evitare sovrapposizioni
+              const offset = index * 2;
               
               return (
                 <div
                   key={appointment.id}
-                  className="absolute left-2 right-2 z-10"
-                  style={{ top: `${top}px`, height: `${height}px` }}
+                  className="absolute z-10"
+                  style={{ 
+                    top: `${top + offset}px`, 
+                    height: `${height}px`,
+                    left: `${8 + offset}px`,
+                    right: `${8 + offset}px`
+                  }}
                 >
                   <AppointmentCard appointment={appointment} />
                 </div>
