@@ -62,8 +62,8 @@ export const Header = () => {
             </AvatarFallback>
           </Avatar>
           <div className="hidden md:block">
-            <p className="text-sm font-medium">Marco Rossi</p>
-            <p className="text-xs text-muted-foreground">Senior Consultant</p>
+            <p className="text-sm font-medium">Antonio Pezzella</p>
+            <p className="text-xs text-muted-foreground">Perito Senior</p>
           </div>
         </div>
       </div>

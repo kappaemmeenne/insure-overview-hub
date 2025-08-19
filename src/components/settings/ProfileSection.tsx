@@ -11,15 +11,15 @@ import { Separator } from "@/components/ui/separator";
 import { toast } from "@/hooks/use-toast";
 
 const profiloPerito = {
-  nome: "Marco",
-  cognome: "Rossi", 
-  email: "marco.rossi@perito.it",
+  nome: "Antonio",
+  cognome: "Pezzella", 
+  email: "antonio.pezzella@ginsuranceconsulting.it",
   telefono: "+39 329 1234567",
-  codiceFiscale: "RSSMRC85M15F839Y",
+  codiceFiscale: "PZZNTN80A15F839W",
   numeroAlbo: "PE/NA/2157",
   specializzazioni: ["Incendio", "Acqua Condotta", "Danni da Vento"],
   esperienza: "15 anni",
-  bio: "Senior Consultant specializzato in sinistri di natura meteorologica e incendio. Esperienza consolidata nel settore assicurativo con particolare focus su perizie auto e immobili per G Insurance Consulting."
+  bio: "Perito Senior specializzato in sinistri di natura meteorologica e incendio. Esperienza consolidata nel settore assicurativo con particolare focus su perizie auto e immobili per G Insurance Consulting."
 };
 
 export const ProfileSection = () => {
