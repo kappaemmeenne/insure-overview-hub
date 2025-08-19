@@ -85,8 +85,8 @@ export const CalendarView = ({ viewType, selectedDate, appointments, filters }: 
         <Card 
           className={`border cursor-pointer hover:shadow-md transition-all duration-200 ${
             isExpanded 
-              ? 'bg-card shadow-lg border-primary/20 p-3' 
-              : `${config.bg} p-2`
+              ? 'bg-card shadow-xl border-primary/30 p-3 relative z-50' 
+              : `${config.bg} p-2 relative z-10`
           }`}
           onClick={() => setIsExpanded(!isExpanded)}
         >
@@ -127,23 +127,23 @@ export const CalendarView = ({ viewType, selectedDate, appointments, filters }: 
               
               {/* Dettagli espandibili */}
               {isExpanded && (
-                <div className="space-y-2 animate-fade-in bg-background/95 backdrop-blur-sm -mx-1 px-2 py-2 rounded border border-border/50">
+                <div className="space-y-2 animate-fade-in bg-card border border-border rounded-md -mx-1 px-3 py-2 shadow-sm">
                   <div className="text-xs font-medium text-foreground">
                     {appointment.title}
                   </div>
-                  <div className="text-xs text-foreground/70">
+                  <div className="text-xs text-foreground/80">
                     Pratica: {appointment.claimNumber}
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-foreground/70">
-                    <MapPin className="h-3 w-3" />
+                  <div className="flex items-center gap-1 text-xs text-foreground/80">
+                    <MapPin className="h-3 w-3 flex-shrink-0" />
                     <span className="truncate">{appointment.address}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-foreground/70">
-                    <Phone className="h-3 w-3" />
+                  <div className="flex items-center gap-1 text-xs text-foreground/80">
+                    <Phone className="h-3 w-3 flex-shrink-0" />
                     <span>{appointment.phone}</span>
                   </div>
-                  <div className="flex items-center gap-1 text-xs text-foreground/70">
-                    <FileText className="h-3 w-3" />
+                  <div className="flex items-center gap-1 text-xs text-foreground/80">
+                    <FileText className="h-3 w-3 flex-shrink-0" />
                     <span>{appointment.description}</span>
                   </div>
                 </div>
@@ -202,6 +202,7 @@ export const CalendarView = ({ viewType, selectedDate, appointments, filters }: 
                   style={{ 
                     top: `${top + offset}px`, 
                     height: `${height}px`,
+                    minHeight: `${height}px`,
                     left: `${8 + offset}px`,
                     right: `${8 + offset}px`
                   }}
