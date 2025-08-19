@@ -19,13 +19,13 @@ const statusData = [
 
 export const Charts = () => {
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-6">
       <Card className="stat-card">
         <CardHeader>
           <CardTitle className="text-lg font-semibold">Andamento Mensile</CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <BarChart data={monthlyData}>
               <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
               <XAxis 
@@ -59,7 +59,7 @@ export const Charts = () => {
           <CardTitle className="text-lg font-semibold">Stati Sinistri</CardTitle>
         </CardHeader>
         <CardContent>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={250}>
             <PieChart>
               <Pie
                 data={statusData}

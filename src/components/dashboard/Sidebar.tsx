@@ -29,7 +29,7 @@ const quickFilters = [
 
 export const Sidebar = () => {
   return (
-    <aside className="w-64 bg-card border-r border-border h-full flex flex-col">
+    <aside className="w-64 bg-card border-r border-border h-full flex flex-col lg:h-auto">
       <nav className="flex-1 p-4 space-y-2">
         <div className="space-y-1">
           {navigationItems.map((item) => (
