@@ -18,6 +18,7 @@ const navigationItems = [
   { name: "Clienti", icon: Users, href: "/clienti" },
   { name: "Calendario", icon: Calendar, href: "/calendario" },
   { name: "Report", icon: BarChart3, href: "/report" },
+  { name: "Impostazioni", icon: Settings, href: "/impostazioni" },
 ];
 
 const quickFilters = [
@@ -110,10 +111,10 @@ export const Sidebar = ({ activeStatusFilter, onStatusFilterChange }: SidebarPro
       </nav>
 
       <div className="p-4 border-t border-border">
-        <button className="flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors w-full">
-          <Settings className="h-5 w-5" />
-          <span>Impostazioni</span>
-        </button>
+        <div className="text-center text-xs text-muted-foreground">
+          <p>© 2024 Perito Assicurativo</p>
+          <p>Versione 1.0.0</p>
+        </div>
       </div>
     </aside>
   );
