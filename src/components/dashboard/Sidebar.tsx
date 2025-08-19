@@ -8,10 +8,15 @@ import {
   Clock,
   CheckCircle,
   AlertTriangle,
-  XCircle
+  XCircle,
+  Sun,
+  Moon
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
+import { useTheme } from "next-themes";
+import { Switch } from "@/components/ui/switch";
+import { useEffect, useState } from "react";
 
 const navigationItems = [
   { name: "Dashboard", icon: LayoutDashboard, href: "/" },
@@ -35,6 +40,18 @@ interface SidebarProps {
 
 export const Sidebar = ({ activeStatusFilter, onStatusFilterChange }: SidebarProps = {}) => {
   const currentPath = window.location.pathname;
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = theme === 'dark';
+  
+  const toggleTheme = () => {
+    setTheme(isDark ? 'light' : 'dark');
+  };
   
   return (
     <aside className="w-64 bg-card border-r border-border h-full flex flex-col lg:h-auto">
@@ -111,6 +128,23 @@ export const Sidebar = ({ activeStatusFilter, onStatusFilterChange }: SidebarPro
       </nav>
 
       <div className="p-4 border-t border-border">
+        {/* Theme Toggle */}
+        <div className="flex items-center justify-between px-3 py-2 mb-3">
+          <div className="flex items-center space-x-3">
+            {mounted && (isDark ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />)}
+            <span className="text-sm text-foreground">
+              {mounted && (isDark ? "Modalità Scura" : "Modalità Chiara")}
+            </span>
+          </div>
+          {mounted && (
+            <Switch
+              checked={isDark}
+              onCheckedChange={toggleTheme}
+              aria-label="Cambia tema"
+            />
+          )}
+        </div>
+        
         <Link
           to="/impostazioni"
           className={cn(
