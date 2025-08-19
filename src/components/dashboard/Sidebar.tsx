@@ -13,8 +13,8 @@ import {
 import { cn } from "@/lib/utils";
 
 const navigationItems = [
-  { name: "Dashboard", icon: LayoutDashboard, href: "/", active: true },
-  { name: "Sinistri", icon: FileText, href: "/sinistri" },
+  { name: "Dashboard", icon: LayoutDashboard, href: "/", active: false },
+  { name: "Sinistri", icon: FileText, href: "/sinistri", active: false },
   { name: "Clienti", icon: Users, href: "/clienti" },
   { name: "Calendario", icon: Calendar, href: "/calendario" },
   { name: "Report", icon: BarChart3, href: "/report" },
@@ -28,25 +28,30 @@ const quickFilters = [
 ];
 
 export const Sidebar = () => {
+  const currentPath = window.location.pathname;
+  
   return (
     <aside className="w-64 bg-card border-r border-border h-full flex flex-col lg:h-auto">
       <nav className="flex-1 p-4 space-y-2">
         <div className="space-y-1">
-          {navigationItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className={cn(
-                "flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
-                item.active
-                  ? "bg-primary text-primary-foreground"
-                  : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-              )}
-            >
-              <item.icon className="h-5 w-5" />
-              <span>{item.name}</span>
-            </a>
-          ))}
+          {navigationItems.map((item) => {
+            const isActive = currentPath === item.href;
+            return (
+              <a
+                key={item.name}
+                href={item.href}
+                className={cn(
+                  "flex items-center space-x-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors",
+                  isActive
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                )}
+              >
+                <item.icon className="h-5 w-5" />
+                <span>{item.name}</span>
+              </a>
+            );
+          })}
         </div>
 
         <div className="pt-6">
