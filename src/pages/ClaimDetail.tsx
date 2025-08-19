@@ -13,6 +13,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Header } from "@/components/dashboard/Header";
+import { Sidebar } from "@/components/dashboard/Sidebar";
 
 export default function ClaimDetail() {
   const { id } = useParams();
@@ -51,43 +53,49 @@ export default function ClaimDetail() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <div className="border-b border-border bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Button 
-                variant="ghost" 
-                size="icon"
-                onClick={() => navigate("/")}
-                className="hover:bg-accent"
-              >
-                <ArrowLeft className="h-4 w-4" />
-              </Button>
-              <div>
-                <h1 className="text-2xl font-bold text-foreground">
-                  Sinistro {claimData.id}
-                </h1>
-                <div className="flex items-center space-x-2 mt-1">
-                  <Badge variant="secondary">{claimData.status}</Badge>
+      <Header />
+      
+      <div className="flex">
+        <Sidebar />
+        
+        <div className="flex-1 lg:ml-64">
+          {/* Header della pagina */}
+          <div className="border-b border-border bg-card">
+            <div className="container mx-auto px-4 py-4">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <Button 
+                    variant="ghost" 
+                    size="icon"
+                    onClick={() => navigate("/")}
+                    className="hover:bg-accent"
+                  >
+                    <ArrowLeft className="h-4 w-4" />
+                  </Button>
+                  <div>
+                    <h1 className="text-2xl font-bold text-foreground">
+                      Sinistro {claimData.id}
+                    </h1>
+                    <div className="flex items-center space-x-2 mt-1">
+                      <Badge variant="secondary">{claimData.status}</Badge>
+                    </div>
+                  </div>
+            </div>
+                
+                <div className="flex space-x-2">
+                  <Button variant="outline" size="sm">
+                    <FileText className="h-4 w-4 mr-2" />
+                    Stampa
+                  </Button>
+                  <Button size="sm">
+                    Salva Modifiche
+                  </Button>
                 </div>
               </div>
             </div>
-            
-            <div className="flex space-x-2">
-              <Button variant="outline" size="sm">
-                <FileText className="h-4 w-4 mr-2" />
-                Stampa
-              </Button>
-              <Button size="sm">
-                Salva Modifiche
-              </Button>
-            </div>
           </div>
-        </div>
-      </div>
 
-      <div className="container mx-auto px-4 py-6 space-y-6">
+          <div className="container mx-auto px-4 py-6 space-y-6">
         {/* Intestazione sinistro */}
         <Card>
           <CardHeader>
@@ -380,6 +388,8 @@ export default function ClaimDetail() {
             </AccordionContent>
           </AccordionItem>
         </Accordion>
+          </div>
+        </div>
       </div>
     </div>
   );
