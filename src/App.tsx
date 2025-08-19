@@ -7,6 +7,7 @@ import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import ClaimDetail from "./pages/ClaimDetail";
 import Claims from "./pages/Claims";
+import Calendar from "./pages/Calendar";
 
 const queryClient = new QueryClient();
 
@@ -19,6 +20,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/sinistri" element={<Claims />} />
+          <Route path="/calendario" element={<Calendar />} />
           <Route path="/claim/:id" element={<ClaimDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

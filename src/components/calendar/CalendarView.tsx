@@ -1,0 +1,307 @@
+import { useState } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { format, isSameDay, startOfWeek, endOfWeek, eachDayOfInterval, startOfMonth, endOfMonth, eachWeekOfInterval } from "date-fns";
+import { it } from "date-fns/locale";
+import { MapPin, Phone, FileText, Clock } from "lucide-react";
+import type { ViewType, Appointment, CalendarFilters, AppointmentType } from "../../pages/Calendar";
+
+interface CalendarViewProps {
+  viewType: ViewType;
+  selectedDate: Date;
+  appointments: Appointment[];
+  filters: CalendarFilters;
+}
+
+const appointmentTypeConfig: Record<AppointmentType, { color: string; emoji: string; bg: string }> = {
+  traditional: { color: "text-destructive", emoji: "🔴", bg: "bg-destructive/10 border-destructive/30" },
+  video: { color: "text-success", emoji: "🟢", bg: "bg-success/10 border-success/30" },
+  specific: { color: "text-warning", emoji: "🟡", bg: "bg-warning/10 border-warning/30" },
+  meeting: { color: "text-primary", emoji: "🔵", bg: "bg-primary/10 border-primary/30" }
+};
+
+const timeSlots = Array.from({ length: 20 }, (_, i) => {
+  const hour = Math.floor(8 + i * 0.5);
+  const minutes = (i % 2) * 30;
+  return `${hour.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+});
+
+export const CalendarView = ({ viewType, selectedDate, appointments, filters }: CalendarViewProps) => {
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null);
+
+  const filteredAppointments = appointments.filter(apt => {
+    if (filters.types.length > 0 && !filters.types.includes(apt.type)) return false;
+    if (filters.statuses.length > 0 && !filters.statuses.includes(apt.status)) return false;
+    if (filters.priorities.length > 0 && !filters.priorities.includes(apt.priority)) return false;
+    return true;
+  });
+
+  const AppointmentCard = ({ appointment, compact = false }: { appointment: Appointment; compact?: boolean }) => {
+    const config = appointmentTypeConfig[appointment.type];
+    
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Card 
+              className={`${config.bg} border cursor-pointer hover:shadow-md transition-all duration-200 ${
+                compact ? 'p-2' : 'p-3'
+              }`}
+              onClick={() => setSelectedAppointment(appointment)}
+            >
+              <CardContent className="p-0">
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <span className="text-lg">{config.emoji}</span>
+                    <span className={`font-medium text-xs ${compact ? 'truncate' : ''}`}>
+                      {appointment.title}
+                    </span>
+                    {appointment.priority === "urgent" && (
+                      <Badge variant="destructive" className="text-xs">
+                        Urgente
+                      </Badge>
+                    )}
+                  </div>
+                  
+                  <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                    <Clock className="h-3 w-3" />
+                    <span>{appointment.startTime} - {appointment.endTime}</span>
+                  </div>
+                  
+                  {!compact && (
+                    <>
+                      <div className="text-xs font-medium">
+                        {appointment.clientName} - {appointment.clientCode.slice(0, 6)}...
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        Pratica: {appointment.claimNumber}
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <MapPin className="h-3 w-3" />
+                        <span className="truncate">{appointment.address}</span>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <Phone className="h-3 w-3" />
+                        <span>{appointment.phone}</span>
+                      </div>
+                      <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                        <FileText className="h-3 w-3" />
+                        <span>{appointment.description}</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
+          </TooltipTrigger>
+          <TooltipContent>
+            <div className="p-2 space-y-1">
+              <p className="font-medium">{appointment.title}</p>
+              <p className="text-xs">{appointment.clientName}</p>
+              <p className="text-xs">{appointment.startTime} - {appointment.endTime}</p>
+            </div>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  };
+
+  const renderDayView = () => {
+    const dayAppointments = filteredAppointments.filter(apt => 
+      isSameDay(new Date(apt.date), selectedDate)
+    );
+
+    return (
+      <div className="grid grid-cols-12 gap-2 h-full">
+        {/* Colonna orari */}
+        <div className="col-span-2">
+          {timeSlots.map(time => (
+            <div key={time} className="h-16 flex items-center justify-end pr-2 text-xs text-muted-foreground border-b border-border">
+              {time}
+            </div>
+          ))}
+        </div>
+        
+        {/* Colonna appuntamenti */}
+        <div className="col-span-10 relative">
+          {timeSlots.map(time => (
+            <div key={time} className="h-16 border-b border-border" />
+          ))}
+          
+          {/* Appuntamenti sovrapposti */}
+          <div className="absolute inset-0">
+            {dayAppointments.map(appointment => {
+              const startHour = parseInt(appointment.startTime.split(':')[0]);
+              const startMinutes = parseInt(appointment.startTime.split(':')[1]);
+              const endHour = parseInt(appointment.endTime.split(':')[0]);
+              const endMinutes = parseInt(appointment.endTime.split(':')[1]);
+              
+              const startSlot = (startHour - 8) * 2 + (startMinutes / 30);
+              const duration = ((endHour * 60 + endMinutes) - (startHour * 60 + startMinutes)) / 30;
+              
+              const top = startSlot * 32; // 32px per slot (h-16 / 2)
+              const height = duration * 32;
+              
+              return (
+                <div
+                  key={appointment.id}
+                  className="absolute left-2 right-2 z-10"
+                  style={{ top: `${top}px`, height: `${height}px` }}
+                >
+                  <AppointmentCard appointment={appointment} />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const renderWeekView = () => {
+    const weekStart = startOfWeek(selectedDate, { weekStartsOn: 1 });
+    const weekEnd = endOfWeek(selectedDate, { weekStartsOn: 1 });
+    const weekDays = eachDayOfInterval({ start: weekStart, end: weekEnd });
+
+    return (
+      <div className="h-full">
+        {/* Header giorni */}
+        <div className="grid grid-cols-8 gap-2 mb-4">
+          <div></div>
+          {weekDays.map(day => (
+            <div key={day.toISOString()} className="text-center p-2 border-b border-border">
+              <div className="text-xs text-muted-foreground">
+                {format(day, "EEE", { locale: it })}
+              </div>
+              <div className="font-medium">
+                {format(day, "d")}
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <ScrollArea className="h-96">
+          <div className="grid grid-cols-8 gap-2">
+            {/* Colonna orari */}
+            <div>
+              {timeSlots.map(time => (
+                <div key={time} className="h-12 flex items-center justify-end pr-2 text-xs text-muted-foreground">
+                  {time}
+                </div>
+              ))}
+            </div>
+            
+            {/* Colonne giorni */}
+            {weekDays.map(day => (
+              <div key={day.toISOString()} className="space-y-1">
+                {timeSlots.map(time => {
+                  const dayAppointments = filteredAppointments.filter(apt =>
+                    isSameDay(new Date(apt.date), day) &&
+                    apt.startTime <= time &&
+                    apt.endTime > time
+                  );
+                  
+                  return (
+                    <div key={time} className="h-12 border-b border-border">
+                      {dayAppointments.map(appointment => (
+                        <AppointmentCard 
+                          key={appointment.id} 
+                          appointment={appointment} 
+                          compact 
+                        />
+                      ))}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </ScrollArea>
+      </div>
+    );
+  };
+
+  const renderMonthView = () => {
+    const monthStart = startOfMonth(selectedDate);
+    const monthEnd = endOfMonth(selectedDate);
+    const monthWeeks = eachWeekOfInterval({ 
+      start: monthStart, 
+      end: monthEnd 
+    }, { weekStartsOn: 1 });
+
+    return (
+      <div className="h-full">
+        {/* Header giorni settimana */}
+        <div className="grid grid-cols-7 gap-2 mb-4">
+          {['Lun', 'Mar', 'Mer', 'Gio', 'Ven', 'Sab', 'Dom'].map(day => (
+            <div key={day} className="text-center p-2 font-medium text-sm text-muted-foreground">
+              {day}
+            </div>
+          ))}
+        </div>
+        
+        {/* Griglia mese */}
+        <div className="grid grid-rows-6 gap-2 h-full">
+          {monthWeeks.map(weekStart => {
+            const weekDays = eachDayOfInterval({
+              start: weekStart,
+              end: endOfWeek(weekStart, { weekStartsOn: 1 })
+            });
+            
+            return (
+              <div key={weekStart.toISOString()} className="grid grid-cols-7 gap-2">
+                {weekDays.map(day => {
+                  const dayAppointments = filteredAppointments.filter(apt =>
+                    isSameDay(new Date(apt.date), day)
+                  );
+                  
+                  return (
+                    <Card 
+                      key={day.toISOString()} 
+                      className={`p-2 h-24 cursor-pointer hover:bg-muted/50 ${
+                        isSameDay(day, selectedDate) ? 'ring-2 ring-primary' : ''
+                      }`}
+                    >
+                      <CardContent className="p-0 h-full flex flex-col">
+                        <div className="font-medium text-sm mb-1">
+                          {format(day, "d")}
+                        </div>
+                        <div className="flex-1 space-y-1 overflow-hidden">
+                          {dayAppointments.slice(0, 2).map(appointment => (
+                            <div
+                              key={appointment.id}
+                              className={`text-xs p-1 rounded ${appointmentTypeConfig[appointment.type].bg} truncate`}
+                            >
+                              {appointmentTypeConfig[appointment.type].emoji} {appointment.startTime}
+                            </div>
+                          ))}
+                          {dayAppointments.length > 2 && (
+                            <div className="text-xs text-muted-foreground">
+                              +{dayAppointments.length - 2} altri
+                            </div>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="h-full">
+      <ScrollArea className="h-full">
+        {viewType === "day" && renderDayView()}
+        {viewType === "week" && renderWeekView()}
+        {viewType === "month" && renderMonthView()}
+      </ScrollArea>
+    </div>
+  );
+};

@@ -13,8 +13,8 @@ import {
 import { cn } from "@/lib/utils";
 
 const navigationItems = [
-  { name: "Dashboard", icon: LayoutDashboard, href: "/", active: false },
-  { name: "Sinistri", icon: FileText, href: "/sinistri", active: false },
+  { name: "Dashboard", icon: LayoutDashboard, href: "/" },
+  { name: "Sinistri", icon: FileText, href: "/sinistri" },
   { name: "Clienti", icon: Users, href: "/clienti" },
   { name: "Calendario", icon: Calendar, href: "/calendario" },
   { name: "Report", icon: BarChart3, href: "/report" },
