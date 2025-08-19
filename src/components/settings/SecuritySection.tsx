@@ -386,7 +386,7 @@ export const SecuritySection = () => {
               rettificare, cancellare i tuoi dati personali e di opporti al loro trattamento.
             </p>
             <p>
-              Per esercitare i tuoi diritti contatta: privacy@studiorossi.it
+              Per esercitare i tuoi diritti contatta: privacy@ginsuranceconsulting.it
             </p>
           </div>
         </CardContent>

@@ -24,10 +24,10 @@ export const Header = () => {
 
         <div className="flex items-center space-x-2">
           <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-            <span className="text-primary-foreground font-bold text-sm">PA</span>
+            <span className="text-primary-foreground font-bold text-sm">GIC</span>
           </div>
-          <span className="font-semibold text-lg hidden sm:block">Perito Assicurativo</span>
-          <span className="font-semibold text-lg sm:hidden">PA</span>
+          <span className="font-semibold text-lg hidden sm:block">G Insurance Consulting</span>
+          <span className="font-semibold text-lg sm:hidden">GIC</span>
         </div>
       </div>
 
@@ -35,7 +35,7 @@ export const Header = () => {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
           <Input
-            placeholder="Cerca sinistri, clienti..."
+            placeholder="Cerca sinistri, clienti, pratiche..."
             className="pl-10 bg-secondary/50"
           />
         </div>
@@ -63,7 +63,7 @@ export const Header = () => {
           </Avatar>
           <div className="hidden md:block">
             <p className="text-sm font-medium">Marco Rossi</p>
-            <p className="text-xs text-muted-foreground">Perito Senior</p>
+            <p className="text-xs text-muted-foreground">Senior Consultant</p>
           </div>
         </div>
       </div>

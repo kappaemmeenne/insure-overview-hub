@@ -13,7 +13,7 @@ interface UrgentClaimsProps {
 
 const urgentClaims = [
   {
-    id: "SIN-2024-001",
+    id: "SIN-2025-001",
     client: "Mario Bianchi",
     location: "Via Roma, 123 - Milano",
     type: "Incidente Stradale",
@@ -22,7 +22,7 @@ const urgentClaims = [
     amount: "€15.250"
   },
   {
-    id: "SIN-2024-045",
+    id: "SIN-2025-045",
     client: "Giulia Verdi",
     location: "Corso Italia, 45 - Torino", 
     type: "Danni da Grandine",
@@ -31,7 +31,7 @@ const urgentClaims = [
     amount: "€8.900"
   },
   {
-    id: "SIN-2024-078",
+    id: "SIN-2025-078",
     client: "Luca Neri",
     location: "Piazza Duomo, 12 - Firenze",
     type: "Furto Auto",

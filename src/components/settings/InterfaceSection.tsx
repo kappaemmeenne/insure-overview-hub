@@ -162,10 +162,10 @@ export const InterfaceSection = () => {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="DD/MM/YYYY">DD/MM/YYYY (31/12/2024)</SelectItem>
-                  <SelectItem value="MM/DD/YYYY">MM/DD/YYYY (12/31/2024)</SelectItem>
-                  <SelectItem value="YYYY-MM-DD">YYYY-MM-DD (2024-12-31)</SelectItem>
-                  <SelectItem value="DD-MM-YYYY">DD-MM-YYYY (31-12-2024)</SelectItem>
+                  <SelectItem value="DD/MM/YYYY">DD/MM/YYYY (31/12/2025)</SelectItem>
+                  <SelectItem value="MM/DD/YYYY">MM/DD/YYYY (12/31/2025)</SelectItem>
+                  <SelectItem value="YYYY-MM-DD">YYYY-MM-DD (2025-12-31)</SelectItem>
+                  <SelectItem value="DD-MM-YYYY">DD-MM-YYYY (31-12-2025)</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -196,10 +196,10 @@ export const InterfaceSection = () => {
               <div>
                 <span className="text-muted-foreground">Data: </span>
                 <span className="font-mono">
-                  {settings.dateFormat === "DD/MM/YYYY" && "31/12/2024"}
-                  {settings.dateFormat === "MM/DD/YYYY" && "12/31/2024"}
-                  {settings.dateFormat === "YYYY-MM-DD" && "2024-12-31"}
-                  {settings.dateFormat === "DD-MM-YYYY" && "31-12-2024"}
+                  {settings.dateFormat === "DD/MM/YYYY" && "31/12/2025"}
+                  {settings.dateFormat === "MM/DD/YYYY" && "12/31/2025"}
+                  {settings.dateFormat === "YYYY-MM-DD" && "2025-12-31"}
+                  {settings.dateFormat === "DD-MM-YYYY" && "31-12-2025"}
                 </span>
               </div>
               <div>

@@ -34,7 +34,7 @@ const templates = [
 
 export const CompanySection = () => {
   const [companyData, setCompanyData] = useState<CompanyData>({
-    nomeStudio: "Studio Tecnico Rossi",
+    nomeStudio: "G Insurance Consulting",
     partitaIva: "12345678901",
     codiceFiscale: "RSSMRC85M15F839Y",
     indirizzo: "Via Toledo 145",
@@ -42,9 +42,9 @@ export const CompanySection = () => {
     cap: "80134",
     provincia: "NA",
     telefono: "+39 081 1234567",
-    email: "info@studiorossi.it",
-    pec: "studio@pec.studiorossi.it",
-    sito: "www.studiorossi.it",
+  email: "info@ginsuranceconsulting.it",
+  pec: "gic@pec.ginsuranceconsulting.it",
+  sito: "www.ginsuranceconsulting.it",
     tariffaOraria: "80",
     tariffaTrasferta: "0.50",
     valutaDefault: "EUR"

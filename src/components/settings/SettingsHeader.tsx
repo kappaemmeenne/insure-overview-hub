@@ -13,7 +13,7 @@ export const SettingsHeader = () => {
           <div>
             <h1 className="text-2xl font-bold text-foreground">Impostazioni</h1>
             <p className="text-sm text-muted-foreground">
-              Configura il tuo account e personalizza l'esperienza
+              Configura G Insurance Consulting e personalizza l'esperienza
             </p>
           </div>
         </div>

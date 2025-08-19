@@ -19,7 +19,7 @@ const profiloPerito = {
   numeroAlbo: "PE/NA/2157",
   specializzazioni: ["Incendio", "Acqua Condotta", "Danni da Vento"],
   esperienza: "15 anni",
-  bio: "Perito assicurativo specializzato in sinistri di natura meteorologica e incendio. Esperienza consolidata nel settore con particolare focus su perizie auto e immobili."
+  bio: "Senior Consultant specializzato in sinistri di natura meteorologica e incendio. Esperienza consolidata nel settore assicurativo con particolare focus su perizie auto e immobili per G Insurance Consulting."
 };
 
 export const ProfileSection = () => {
