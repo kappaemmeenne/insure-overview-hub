@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { NewClaimModal } from "@/components/claims/NewClaimModal";
 import {
   Table,
   TableBody,
@@ -267,10 +268,13 @@ export default function Claims() {
                   <CardTitle>
                     Sinistri ({filteredClaims.length})
                   </CardTitle>
-                  <Button size="sm">
-                    <Calendar className="h-4 w-4 mr-2" />
-                    Esporta
-                  </Button>
+                  <div className="flex gap-2">
+                    <NewClaimModal />
+                    <Button size="sm" variant="outline">
+                      <Calendar className="h-4 w-4 mr-2" />
+                      Esporta
+                    </Button>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent>

@@ -1,10 +1,10 @@
-import { Bell, Search, User, Menu } from "lucide-react";
+import { Search, User, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Sidebar } from "./Sidebar";
+import { NotificationsDropdown } from "./NotificationsDropdown";
 
 export const Header = () => {
   return (
@@ -52,12 +52,7 @@ export const Header = () => {
       </Button>
 
       <div className="flex items-center space-x-4">
-        <Button variant="ghost" size="icon" className="relative">
-          <Bell className="h-5 w-5" />
-          <Badge className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 bg-destructive text-destructive-foreground text-xs">
-            3
-          </Badge>
-        </Button>
+        <NotificationsDropdown />
 
         <div className="flex items-center space-x-3">
           <Avatar className="h-8 w-8">
