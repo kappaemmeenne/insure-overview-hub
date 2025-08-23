@@ -12,6 +12,7 @@ import Calendar from "./pages/Calendar";
 import Clients from "./pages/Clients";
 import Report from "./pages/Report";
 import Settings from "./pages/Settings";
+import AssicuratoDashboard from "./pages/AssicuratoDashboard";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/clienti" element={<Clients />} />
           <Route path="/report" element={<Report />} />
           <Route path="/impostazioni" element={<Settings />} />
+          <Route path="/assicurato" element={<AssicuratoDashboard />} />
           <Route path="/claim/:id" element={<ClaimDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
