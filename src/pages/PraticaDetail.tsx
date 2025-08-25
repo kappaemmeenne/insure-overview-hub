@@ -117,45 +117,125 @@ const PraticaDetail = () => {
       </div>
 
       <div className="container mx-auto p-6 space-y-6">
-        {/* Progress Section - Uber Style */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5 text-primary" />
-              Stato della Pratica
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="mb-6">
-              <div className="flex justify-between items-center mb-2">
-                <span className="text-sm font-medium">Progresso</span>
-                <span className="text-sm text-muted-foreground">{mockPratica.progress}%</span>
+        {/* Main Status Card - Delivery App Style */}
+        <Card className="overflow-hidden shadow-lg">
+          <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-8 border-b">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-2xl font-bold text-foreground">Stato della Pratica</h2>
+              <Badge 
+                className={`px-6 py-3 text-lg font-semibold bg-${getStatusColor(mockPratica.status)} text-${getStatusColor(mockPratica.status)}-foreground rounded-full`}
+              >
+                {mockPratica.statusText}
+              </Badge>
+            </div>
+            
+            {/* Progress Bar - Large and Prominent */}
+            <div className="mb-8">
+              <div className="flex justify-between items-center mb-4">
+                <span className="text-xl font-semibold text-foreground">Progresso Generale</span>
+                <span className="text-3xl font-bold text-primary">{mockPratica.progress}%</span>
               </div>
-              <Progress value={mockPratica.progress} className="h-2" />
+              <div className="relative h-6 bg-secondary rounded-full overflow-hidden">
+                <div 
+                  className="absolute top-0 left-0 h-full bg-gradient-primary transition-all duration-1000 ease-out rounded-full"
+                  style={{ width: `${mockPratica.progress}%` }}
+                />
+              </div>
             </div>
 
-            <div className="space-y-4">
-              {mockPratica.steps.map((step, index) => (
-                <div key={step.id} className="flex items-start gap-4">
-                  <div className="flex flex-col items-center">
-                    {getStepIcon(step)}
-                    {index < mockPratica.steps.length - 1 && (
-                      <div className={`w-0.5 h-8 mt-2 ${
-                        step.completed ? 'bg-success' : 'bg-muted'
-                      }`} />
-                    )}
+            {/* Current Step Highlight */}
+            {mockPratica.steps.find(step => step.inProgress) && (
+              <div className="bg-card rounded-xl p-6 border border-primary/20 shadow-md">
+                <div className="flex items-center gap-4">
+                  <div className="w-4 h-4 bg-primary rounded-full animate-pulse" />
+                  <div>
+                    <p className="text-sm text-muted-foreground font-medium">Fase Corrente</p>
+                    <p className="font-bold text-foreground text-xl">
+                      {mockPratica.steps.find(step => step.inProgress)?.name}
+                    </p>
                   </div>
-                  <div className="flex-1 pb-4">
-                    <h4 className={`font-medium ${
-                      step.completed ? 'text-foreground' : 
-                      step.inProgress ? 'text-primary' : 'text-muted-foreground'
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Delivery-Style Timeline */}
+          <CardContent className="p-8">
+            <div className="space-y-8">
+              {mockPratica.steps.map((step, index) => (
+                <div key={step.id} className="relative">
+                  <div className="flex items-start gap-8">
+                    {/* Timeline Icon */}
+                    <div className="relative z-10">
+                      <div className={`w-16 h-16 rounded-full border-4 flex items-center justify-center transition-all duration-500 ${
+                        step.completed 
+                          ? 'bg-success border-success shadow-xl' 
+                          : step.inProgress 
+                            ? 'bg-primary border-primary shadow-xl animate-pulse' 
+                            : 'bg-muted border-muted-foreground/30'
+                      }`}>
+                        {step.completed ? (
+                          <CheckCircle className="h-8 w-8 text-success-foreground" />
+                        ) : step.inProgress ? (
+                          <Clock className="h-8 w-8 text-primary-foreground" />
+                        ) : (
+                          <div className="w-6 h-6 rounded-full bg-muted-foreground/50" />
+                        )}
+                      </div>
+                      
+                      {/* Connecting Line */}
+                      {index < mockPratica.steps.length - 1 && (
+                        <div className={`absolute top-16 left-1/2 w-1 h-12 -translate-x-1/2 transition-all duration-500 ${
+                          step.completed ? 'bg-success shadow-sm' : 'bg-muted'
+                        }`} />
+                      )}
+                    </div>
+
+                    {/* Step Content */}
+                    <div className={`flex-1 pb-8 transition-all duration-500 ${
+                      step.inProgress ? 'transform scale-105' : ''
                     }`}>
-                      {step.name}
-                    </h4>
-                    <p className="text-sm text-muted-foreground">{step.date}</p>
+                      <div className={`p-6 rounded-xl border transition-all duration-300 ${
+                        step.completed 
+                          ? 'bg-success/10 border-success/30 shadow-md' 
+                          : step.inProgress 
+                            ? 'bg-primary/10 border-primary/30 shadow-xl' 
+                            : 'bg-muted/50 border-muted'
+                      }`}>
+                        <h4 className={`font-bold text-xl mb-2 ${
+                          step.completed ? 'text-success' : 
+                          step.inProgress ? 'text-primary' : 'text-muted-foreground'
+                        }`}>
+                          {step.name}
+                        </h4>
+                        <p className={`text-base ${
+                          step.inProgress ? 'text-primary/80 font-semibold' : 'text-muted-foreground'
+                        }`}>
+                          {step.date}
+                        </p>
+                        
+                        {step.inProgress && (
+                          <div className="mt-4 flex items-center gap-3 text-primary">
+                            <div className="w-3 h-3 bg-primary rounded-full animate-pulse" />
+                            <span className="text-base font-semibold">In lavorazione...</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* Estimated Completion */}
+            <div className="mt-8 p-6 bg-gradient-to-r from-muted/50 to-muted/30 rounded-xl border border-dashed border-primary/20">
+              <div className="flex items-center gap-4">
+                <Calendar className="h-6 w-6 text-primary" />
+                <div>
+                  <p className="text-sm text-muted-foreground font-medium">Completamento Stimato</p>
+                  <p className="font-bold text-foreground text-lg">25 Gennaio 2024</p>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
