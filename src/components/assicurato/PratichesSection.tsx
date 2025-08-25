@@ -119,7 +119,12 @@ export const PratichesSection = () => {
                         <span>Data: {new Date(pratica.date).toLocaleDateString('it-IT')}</span>
                         <span>Importo: {pratica.amount}</span>
                       </div>
-                      <Button size="sm" variant="outline" className="text-xs">
+                      <Button 
+                        size="sm" 
+                        variant="outline" 
+                        className="text-xs"
+                        onClick={() => window.location.href = `/pratica/${pratica.id}`}
+                      >
                         <Eye className="h-3 w-3 mr-1" />
                         Visualizza Dettagli
                       </Button>
